@@ -1,13 +1,16 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {BaseEntity} from "./base.entity";
+import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import { DateEntity } from "./date.entity";
+import {ProfileEntity} from "../../profiles/entities/profile.entity";
 
 
 @Entity('users')
-export class UserEntity extends BaseEntity {
+export class UserEntity extends DateEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    unique: true
+  })
   username: string;
 
   @Column()
@@ -18,4 +21,7 @@ export class UserEntity extends BaseEntity {
     default: true
   })
   isActive: boolean;
+
+  @OneToOne(() => ProfileEntity, (profile) => profile.user)
+  profile: ProfileEntity
 }
