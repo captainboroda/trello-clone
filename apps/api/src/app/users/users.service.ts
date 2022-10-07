@@ -34,4 +34,8 @@ export class UsersService {
   deleteUser(id: number) {
     return this.userRepo.delete(id);
   }
+
+  findUser(username: string): Promise<UserEntity> {
+    return this.userRepo.findOneBy({ username });
+  }
 }
