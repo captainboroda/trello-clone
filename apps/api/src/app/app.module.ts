@@ -7,6 +7,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserEntity} from "./users/entities/user.entity";
 import {ProfileEntity} from "./profiles/entities/profile.entity";
 import { ProfilesModule } from './profiles/profiles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ProfilesModule } from './profiles/profiles.module';
       ],
       synchronize: true,
     }),
-    ProfilesModule
+    ProfilesModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
