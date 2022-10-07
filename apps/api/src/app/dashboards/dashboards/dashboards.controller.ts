@@ -1,26 +1,33 @@
-import { Controller, Delete, Get, Post, UseGuards, Request, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, Delete, Get, Post, UseGuards, Request, Param, ParseIntPipe, Body } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { DashboardsService } from "./dashboards.service";
+import { CreateDashboardDto } from "../dto/create-dashboard.dto";
 
 @UseGuards(JwtAuthGuard)
 @Controller('dashboards')
 export class DashboardsController {
 
+  constructor(private readonly dashboardsService: DashboardsService) {
+  }
 
   @Get()
-  getDashboads(@Request() req,
-               @Param('id', ParseIntPipe) id: number) {
-    return 'This action should return all dashboards'
+  getDashboards(@Request() req) {
+    const { userId } = req.user;
+    return this.dashboardsService.getDashboards(userId);
   }
 
   @Get(':id')
   getDashboard(@Request() req,
                @Param('id', ParseIntPipe) id: number) {
-    return 'This action should return single dashboard'
+    const { userId } = req.user;
+    return this.dashboardsService.getDashboard(userId, id);
   }
 
   @Post()
-  createDashboard() {
-    return 'This action should create dashboard'
+  createDashboard(@Request() req,
+                  @Body() createDashboard: CreateDashboardDto) {
+    const { userId } = req.user;
+    return this.dashboardsService.createDashboard(userId, createDashboard)
   }
 
   @Delete(':id')
@@ -28,6 +35,4 @@ export class DashboardsController {
                   @Param('id', ParseIntPipe) id: number) {
     return 'This action should delete dashboard'
   }
-
-
 }
