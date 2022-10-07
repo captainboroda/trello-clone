@@ -1,16 +1,28 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Request,
+  UseGuards } from "@nestjs/common";
 import { UsersService } from './users.service';
-import {CreateUserDto} from "./dto/create-user.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  //TODO: remove user id from params, sahould be extracted from token
-  @Get(':id')
-  getUser(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.getUser(id);
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  getUser(@Request() req) {
+    const { userId } = req.user;
+
+    return this.usersService.getUser(userId);
   }
 
   @Patch()

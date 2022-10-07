@@ -1,32 +1,36 @@
-import {Body, Controller, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Request, Patch, Post, UseGuards } from "@nestjs/common";
 import { ProfilesService } from './profiles.service';
-import {CreateProfileDto} from "./dto/create-profile.dto";
-import {UpdateUserDto} from "../users/dto/update-user.dto";
-import {UpdateProfileDto} from "./dto/update-profile.dto";
+import { CreateProfileDto } from "./dto/create-profile.dto";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Controller('profile')
 export class ProfilesController {
+
   constructor(private readonly profilesService: ProfilesService) {}
 
-
-  @Post(':userId')
+  @Post()
   createProfile(
-    //TODO: userId should be getted from req.user
-    @Param('userId', ParseIntPipe) userId: number,
-    @Body() createProfile: CreateProfileDto) {
+    @Body() createProfile: CreateProfileDto,
+    @Request() req) {
+    const { userId } = req.user;
+
     return this.profilesService.createProfile(userId, createProfile);
   }
 
-  @Patch(':userId')
-  //TODO: userId should be getted from req.user
-  updateProfile(@Param('userId') userId: number,
+  @Patch()
+  updateProfile(@Request() req,
                 @Body() updateProfile: UpdateProfileDto) {
+    const { userId } = req.user;
+
     return this.profilesService.updateProfile(userId, updateProfile)
   }
 
-  @Get(':userId')
-  //TODO: userId should be getted from req.user
-  getProfile(@Param('userId', ParseIntPipe) userId: number) {
+  @Get()
+  getProfile(@Request() req) {
+    const { userId } = req.user;
+
     return this.profilesService.getProfile(userId);
   }
 }

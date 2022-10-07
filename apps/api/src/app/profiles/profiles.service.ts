@@ -21,7 +21,7 @@ export class ProfilesService {
   }
 
   async updateProfile(userId: number, updateProfile: UpdateProfileDto): Promise<ProfileEntity> {
-    await this.profileRepo.update(userId, updateProfile);
+    await this.profileRepo.update({userId}, updateProfile);
 
     return this.getProfile(userId);
   }
