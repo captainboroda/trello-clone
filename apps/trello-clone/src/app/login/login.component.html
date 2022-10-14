@@ -1,0 +1,5 @@
+<form [formGroup]="loginForm">
+  <input formControlName="username" type="text" placeholder="username">
+  <input formControlName="password" type="password" placeholder="password">
+  <button type="submit" (click)="login()" [disabled]="loginForm.invalid">Login</button>
+</form>

@@ -24,7 +24,7 @@ export class DashboardsService {
     const dashboard = await this.dashboardRepo.findOneBy({id, userId});
 
     if (!dashboard) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Dashboard with id${id} not found`);
     }
 
     return dashboard;

@@ -9,6 +9,8 @@ import {ProfileEntity} from "./profiles/entities/profile.entity";
 import { ProfilesModule } from './profiles/profiles.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { DashboardsModule } from './dashboards/dashboards.module';
+import { DashboardEntity } from "./dashboards/entities/dashboard.entity";
 
 @Module({
   imports: [
@@ -25,14 +27,15 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         logNotifications: true,
-        entities: [UserEntity, ProfileEntity],
+        entities: [UserEntity, ProfileEntity, DashboardEntity],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UsersModule,
     ProfilesModule,
-    AuthModule
+    AuthModule,
+    DashboardsModule
   ],
   controllers: [AppController],
   providers: [AppService],

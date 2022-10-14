@@ -1,6 +1,7 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { DateEntity } from "./date.entity";
 import {ProfileEntity} from "../../profiles/entities/profile.entity";
+import { DashboardEntity } from "../../dashboards/entities/dashboard.entity";
 
 
 @Entity('users')
@@ -24,4 +25,7 @@ export class UserEntity extends DateEntity {
 
   @OneToOne(() => ProfileEntity, (profile) => profile.user)
   profile: ProfileEntity
+
+  @OneToMany(() => DashboardEntity, (dashboard) => dashboard.user)
+  dashboards: DashboardEntity[]
 }
