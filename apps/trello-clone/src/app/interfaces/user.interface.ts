@@ -3,7 +3,5 @@ export interface IUser {
   updatedAt: Date;
   id: number;
   username: string;
-  //TODO: remove password field when remove it from response
-  password: string;
   isActive: boolean;
 }

@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typ
 import { DateEntity } from "./date.entity";
 import {ProfileEntity} from "../../profiles/entities/profile.entity";
 import { DashboardEntity } from "../../dashboards/entities/dashboard.entity";
-
+import { Exclude } from "class-transformer";
 
 @Entity('users')
 export class UserEntity extends DateEntity {
@@ -14,6 +14,7 @@ export class UserEntity extends DateEntity {
   })
   username: string;
 
+  @Exclude()
   @Column()
   password: string;
 
@@ -28,4 +29,10 @@ export class UserEntity extends DateEntity {
 
   @OneToMany(() => DashboardEntity, (dashboard) => dashboard.user)
   dashboards: DashboardEntity[]
+
+
+  constructor(partial: Partial<UserEntity>) {
+    super();
+    Object.assign(this, partial);
+  }
 }
